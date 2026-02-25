@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ✅ theme-color: muda a cor da barra do navegador no mobile -->
-  <meta name="theme-color" content="#0f1b2d" id="theme-color-meta">
+  <!-- ✅ theme-color: controlada pelo JS abaixo via IntersectionObserver -->
+  <!-- O JS detecta prefers-color-scheme e escolhe a cor certa por seção -->
+  <meta name="theme-color" content="#4a90d9" id="theme-color-meta">
 
   <title>Theme Color Demo</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -110,45 +111,31 @@
       letter-spacing: 0.02em;
     }
 
-    /* ─── SEÇÃO 1: AZUL NOITE ─────────────────────── */
-    #s1 {
-      background: #0f1b2d;
-      color: #e8eef5;
-    }
+    /* ─── SEÇÃO 1: AZUL ──────────────────────────── */
+    #s1 { background: #4a90d9; color: #fff; }
     #s1::before {
       content: '';
       position: absolute;
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
       top: -100px; left: -100px;
       pointer-events: none;
     }
 
-    /* ─── SEÇÃO 2: VERDE ESMERALDA ────────────────── */
-    #s2 {
-      background: #052e16;
-      color: #d1fae5;
-    }
+    /* ─── SEÇÃO 2: VERDE ──────────────────────────── */
+    #s2 { background: #16a34a; color: #f0fdf4; }
     #s2::before {
       content: '';
       position: absolute;
       width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
       bottom: -80px; right: -80px;
       pointer-events: none;
     }
 
-    /* ─── SEÇÃO 3: CREME / OFF-WHITE ──────────────── */
-    #s3 {
-      background: #faf8f3;
-      color: #1a1510;
-    }
+    /* ─── SEÇÃO 3: CREME ──────────────────────────── */
+    #s3 { background: #faf8f3; color: #1a1510; }
     #s3 .section-label { color: #1a1510; }
-    #s3 .code-badge {
-      background: rgba(0,0,0,0.05);
-      border-color: rgba(0,0,0,0.1);
-      color: #1a1510;
-    }
     #s3::before {
       content: '';
       position: absolute;
@@ -158,32 +145,63 @@
       pointer-events: none;
     }
 
-    /* ─── SEÇÃO 4: ROXO PROFUNDO ──────────────────── */
-    #s4 {
-      background: #1e0a3c;
-      color: #ede9fe;
-    }
+    /* ─── SEÇÃO 4: ROXO ───────────────────────────── */
+    #s4 { background: #7c3aed; color: #ede9fe; }
     #s4::before {
       content: '';
       position: absolute;
       width: 700px; height: 400px;
-      background: radial-gradient(ellipse, rgba(139,92,246,0.2) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
       top: 50%; left: 50%; transform: translate(-50%,-50%);
       pointer-events: none;
     }
 
-    /* ─── SEÇÃO 5: VERMELHO VIVO ──────────────────── */
-    #s5 {
-      background: #1c0a0a;
-      color: #fee2e2;
-    }
+    /* ─── SEÇÃO 5: VERMELHO ───────────────────────── */
+    #s5 { background: #dc2626; color: #fee2e2; }
     #s5::before {
       content: '';
       position: absolute;
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(239,68,68,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
       bottom: -100px; left: -50px;
       pointer-events: none;
+    }
+
+    /* ─── DARK MODE: fundos escuros ───────────────── */
+    @media (prefers-color-scheme: dark) {
+      #s1 { background: #0f1b2d; }
+      #s2 { background: #052e16; color: #d1fae5; }
+      #s3 { background: #1a1510; color: #faf8f3; }
+      #s3 .section-label { color: #faf8f3; }
+      #s4 { background: #1e0a3c; }
+      #s5 { background: #1c0a0a; }
+    }
+
+    /* ─── CODE BADGES ─────────────────────────────── */
+    .code-badge {
+      margin-top: 12px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      opacity: 0.8;
+      letter-spacing: 0.02em;
+    }
+
+    /* Mostra só o badge relevante para o tema atual */
+    @media (prefers-color-scheme: light) {
+      .code-dark { display: none; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .code-light { display: none; }
+    }
+
+    #s3 .code-badge {
+      background: rgba(0,0,0,0.06);
+      border-color: rgba(0,0,0,0.12);
+      color: inherit;
     }
 
     /* ─── SETA SCROLL ─────────────────────────────── */
@@ -269,15 +287,16 @@
   </nav>
 
   <!-- ═══ SEÇÃO 1 ═══ -->
-  <section id="s1" data-theme="#0f1b2d">
+  <section id="s1" data-theme-light="#4a90d9" data-theme-dark="#0f1b2d">
     <span class="tag">theme-color demo</span>
-    <span class="section-label">Seção 01 — Azul Noite</span>
+    <span class="section-label">Seção 01 — Azul</span>
     <h2>Role a página<br>e veja a magia.</h2>
     <p class="desc">
       Cada seção muda a cor da barra do navegador no mobile.
       Abra no <strong>Safari (iOS)</strong> ou <strong>Chrome (Android)</strong> para ver o efeito.
     </p>
-    <div class="code-badge">&lt;meta name="theme-color" content="<strong>#0f1b2d</strong>"&gt;</div>
+    <div class="code-badge code-light">&lt;meta name="theme-color" content="<strong>#4a90d9</strong>"&gt; <em>(light)</em></div>
+    <div class="code-badge code-dark">&lt;meta name="theme-color" content="<strong>#0f1b2d</strong>"&gt; <em>(dark)</em></div>
     <div class="scroll-hint">
       scroll
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -287,47 +306,51 @@
   </section>
 
   <!-- ═══ SEÇÃO 2 ═══ -->
-  <section id="s2" data-theme="#052e16">
-    <span class="section-label">Seção 02 — Verde Esmeralda</span>
+  <section id="s2" data-theme-light="#16a34a" data-theme-dark="#052e16">
+    <span class="section-label">Seção 02 — Verde</span>
     <h2>A barra agora<br>é verde.</h2>
     <p class="desc">
-      O JavaScript detecta qual seção está visível via <code>IntersectionObserver</code>
-      e atualiza a meta tag dinamicamente.
+      O JS detecta <code>prefers-color-scheme</code> e escolhe a cor certa para o tema
+      atual do sistema — light ou dark.
     </p>
-    <div class="code-badge">&lt;meta name="theme-color" content="<strong>#052e16</strong>"&gt;</div>
+    <div class="code-badge code-light">&lt;meta name="theme-color" content="<strong>#16a34a</strong>"&gt; <em>(light)</em></div>
+    <div class="code-badge code-dark">&lt;meta name="theme-color" content="<strong>#052e16</strong>"&gt; <em>(dark)</em></div>
   </section>
 
   <!-- ═══ SEÇÃO 3 ═══ -->
-  <section id="s3" data-theme="#faf8f3">
+  <section id="s3" data-theme-light="#faf8f3" data-theme-dark="#1a1510">
     <span class="section-label">Seção 03 — Creme</span>
-    <h2 style="color:#1a1510">Funciona em<br>tons claros.</h2>
-    <p class="desc" style="color:#1a1510">
-      A cor pode ser qualquer valor CSS válido — hex, rgb, hsl. Aqui usamos um
-      off-white quente para mostrar que também funciona em temas claros.
+    <h2>Funciona em<br>tons claros.</h2>
+    <p class="desc">
+      No dark mode o creme vira marrom escuro — a barra continua harmoniosa
+      com o conteúdo em qualquer tema.
     </p>
-    <div class="code-badge" style="color:#1a1510">&lt;meta name="theme-color" content="<strong>#faf8f3</strong>"&gt;</div>
+    <div class="code-badge code-light">&lt;meta name="theme-color" content="<strong>#faf8f3</strong>"&gt; <em>(light)</em></div>
+    <div class="code-badge code-dark">&lt;meta name="theme-color" content="<strong>#1a1510</strong>"&gt; <em>(dark)</em></div>
   </section>
 
   <!-- ═══ SEÇÃO 4 ═══ -->
-  <section id="s4" data-theme="#1e0a3c">
-    <span class="section-label">Seção 04 — Roxo Profundo</span>
+  <section id="s4" data-theme-light="#7c3aed" data-theme-dark="#1e0a3c">
+    <span class="section-label">Seção 04 — Roxo</span>
     <h2>Só uma linha<br>de HTML.</h2>
     <p class="desc">
-      A meta tag base fica no <code>&lt;head&gt;</code>. O JS apenas troca o atributo
-      <code>content</code> conforme o scroll — nenhuma biblioteca necessária.
+      No light o roxo é vibrante; no dark, profundo. O <code>matchMedia</code>
+      escuta mudanças em tempo real — se o usuário trocar o tema, a cor atualiza na hora.
     </p>
-    <div class="code-badge">&lt;meta name="theme-color" content="<strong>#1e0a3c</strong>"&gt;</div>
+    <div class="code-badge code-light">&lt;meta name="theme-color" content="<strong>#7c3aed</strong>"&gt; <em>(light)</em></div>
+    <div class="code-badge code-dark">&lt;meta name="theme-color" content="<strong>#1e0a3c</strong>"&gt; <em>(dark)</em></div>
   </section>
 
   <!-- ═══ SEÇÃO 5 ═══ -->
-  <section id="s5" data-theme="#1c0a0a">
+  <section id="s5" data-theme-light="#dc2626" data-theme-dark="#1c0a0a">
     <span class="section-label">Seção 05 — Vermelho</span>
     <h2>Simples assim.</h2>
     <p class="desc">
       Funciona no <strong>Safari iOS 15+</strong> e <strong>Chrome Android</strong>.
       Navegadores que não suportam simplesmente ignoram a tag — zero risco.
     </p>
-    <div class="code-badge">&lt;meta name="theme-color" content="<strong>#1c0a0a</strong>"&gt;</div>
+    <div class="code-badge code-light">&lt;meta name="theme-color" content="<strong>#dc2626</strong>"&gt; <em>(light)</em></div>
+    <div class="code-badge code-dark">&lt;meta name="theme-color" content="<strong>#1c0a0a</strong>"&gt; <em>(dark)</em></div>
   </section>
 
   <script>
@@ -335,14 +358,23 @@
     const dot       = document.getElementById('indicator-dot');
     const colorText = document.getElementById('indicator-color');
     const navDots   = document.querySelectorAll('.nav-dot');
-    const sections  = document.querySelectorAll('section[data-theme]');
+    const sections  = document.querySelectorAll('section[data-theme-light]');
+
+    // Detecta dark mode em tempo real
+    const darkMQ = window.matchMedia('(prefers-color-scheme: dark)');
+    const isDark = () => darkMQ.matches;
+
+    let currentSection = sections[0];
 
     function scrollToSection(id) {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Atualiza theme-color e indicador visual
-    function applyTheme(color, index) {
+    function applyTheme(section, index) {
+      const color = isDark()
+        ? section.dataset.themeDark
+        : section.dataset.themeLight;
+
       metaTag.setAttribute('content', color);
       dot.style.background = color;
       dot.style.border = '2px solid rgba(255,255,255,0.4)';
@@ -351,18 +383,24 @@
       navDots.forEach((d, i) => d.classList.toggle('active', i === index));
     }
 
-    // IntersectionObserver: dispara quando a seção ocupa >50% da viewport
+    // IntersectionObserver: seção visível > 50%
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const color = entry.target.dataset.theme;
+          currentSection = entry.target;
           const index = Array.from(sections).indexOf(entry.target);
-          applyTheme(color, index);
+          applyTheme(entry.target, index);
         }
       });
     }, { threshold: 0.5 });
 
     sections.forEach(s => observer.observe(s));
+
+    // Se o usuário mudar o tema do sistema enquanto está na página, atualiza na hora
+    darkMQ.addEventListener('change', () => {
+      const index = Array.from(sections).indexOf(currentSection);
+      applyTheme(currentSection, index);
+    });
   </script>
 </body>
 </html>
